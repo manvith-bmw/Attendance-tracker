@@ -1,11 +1,20 @@
 const googleWebAppUrl = "https://script.google.com/macros/s/XXXXX/exec";
+document.getElementById("loginBTN").getEventListner("click",signup());
+function signup {
+   let gmail = document.getElementById("gmail").value;
+   let password = document.getElementById("password").value;
+   if (!gmail||!password){
+    alert("Please enter your Email or Password correctly")
+   } 
+}
+
+
 
 function loginInformation {
-let userName = document.getElementById("userId").value;
 let gmail = document.getElementById("gmail").value;
 let password = document.getElementById("password").value;
 let Authentication = document.getElementById("Authentication").value;
-let loginPackage = {"name":userName,"gmail":gmail,"password":password,"Authentication":Authentication}
+let loginPackage = {"gmail":gmail,"password":password,"Authentication":Authentication}
 return loginPackage;
 };
 
