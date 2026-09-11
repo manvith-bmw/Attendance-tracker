@@ -1,0 +1,1156 @@
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+
+background:linear-gradient(135deg,#3b82f6,#06b6d4,#9333ea);
+background-size:300% 300%;
+animation:bgMove 12s infinite alternate;
+
+}
+
+@keyframes bgMove{
+
+0%{background-position:left;}
+100%{background-position:right;}
+
+}
+
+.container{
+
+width:100%;
+max-width:900px;
+
+padding:35px;
+
+background:rgba(255,255,255,.15);
+
+backdrop-filter:blur(22px);
+
+border:1px solid rgba(255,255,255,.25);
+
+border-radius:25px;
+
+box-shadow:0 25px 45px rgba(0,0,0,.25);
+
+animation:slideUp .8s ease;
+
+}
+
+@keyframes slideUp{
+
+from{
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+h1{
+
+text-align:center;
+color:white;
+font-size:34px;
+font-weight:700;
+
+}
+
+.subtitle{
+
+text-align:center;
+color:#f3f4f6;
+margin-top:8px;
+margin-bottom:25px;
+
+}
+
+.live{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+
+color:white;
+font-weight:600;
+
+margin-bottom:20px;
+
+}
+
+.progress-container{
+
+height:14px;
+background:rgba(255,255,255,.4);
+border-radius:50px;
+overflow:hidden;
+margin-bottom:30px;
+
+}
+
+.progress{
+
+height:100%;
+width:0%;
+border-radius:50px;
+
+background:linear-gradient(90deg,#22c55e,#14b8a6);
+
+transition:.4s;
+
+}
+
+.section{
+
+margin-top:25px;
+
+}
+
+.section h2{
+
+color:white;
+margin-bottom:18px;
+font-size:22px;
+
+}
+
+.row{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+
+}
+
+@media(max-width:700px){
+
+.row{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+.inputBox{
+
+display:flex;
+flex-direction:column;
+
+}
+
+.inputBox label{
+
+color:white;
+font-weight:500;
+margin-bottom:8px;
+
+}
+
+.inputBox input,
+.inputBox select,
+.inputBox textarea{
+
+padding:14px;
+
+border:none;
+
+outline:none;
+
+border-radius:14px;
+
+background:rgba(255,255,255,.92);
+
+font-size:15px;
+
+transition:.3s;
+
+}
+
+.inputBox input:focus,
+.inputBox select:focus,
+.inputBox textarea:focus{
+
+transform:scale(1.02);
+
+box-shadow:0 0 12px rgba(255,255,255,.7);
+
+}
+
+textarea{
+
+resize:none;
+height:120px;
+
+}
+
+.passwordBox{
+
+position:relative;
+
+}
+
+.passwordBox button{
+
+position:absolute;
+
+right:12px;
+
+top:43px;
+
+background:none;
+
+border:none;
+
+cursor:pointer;
+
+font-weight:600;
+
+color:#2563eb;
+
+}
+
+/* ---------- Professional Radio Buttons ---------- */
+
+.radio-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:12px;
+
+margin-top:5px;
+
+}
+
+.radio-item{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+padding:10px 14px;
+
+background:rgba(255,255,255,.18);
+
+border:1px solid rgba(255,255,255,.25);
+
+border-radius:12px;
+
+color:white;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.radio-item:hover{
+
+background:rgba(255,255,255,.28);
+
+transform:translateY(-2px);
+
+}
+
+.radio-item input{
+
+accent-color:#22c55e;
+
+width:18px;
+
+height:18px;
+
+cursor:pointer;
+
+}
+
+/* ---------------- Buttons ---------------- */
+
+button.submit{
+
+width:100%;
+
+padding:15px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:16px;
+
+font-weight:600;
+
+cursor:pointer;
+
+background:linear-gradient(90deg,#2563eb,#06b6d4);
+
+color:white;
+
+transition:.3s;
+
+}
+
+button.submit:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 12px 25px rgba(0,0,0,.25);
+
+}
+
+/* ------------ Popup ------------ */
+
+.overlay{
+
+position:fixed;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.45);
+
+display:none;
+
+}
+
+.overlay.active{
+
+display:block;
+
+}
+
+.popup{
+
+position:fixed;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%) scale(0);
+
+background:white;
+
+padding:30px;
+
+width:320px;
+
+border-radius:18px;
+
+text-align:center;
+
+transition:.4s;
+
+z-index:10;
+
+}
+
+.popup.active{
+
+transform:translate(-50%,-50%) scale(1);
+
+}
+
+.popup h2{
+
+color:#16a34a;
+
+margin-bottom:10px;
+
+}
+
+.popup button{
+
+margin-top:15px;
+
+padding:10px 25px;
+
+border:none;
+
+border-radius:10px;
+
+background:#2563eb;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+.error{
+
+color:#fde047;
+
+font-size:13px;
+
+margin-top:5px;
+
+}
+
+.success{
+
+color:#4ade80;
+
+font-size:13px;
+
+margin-top:5px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>FET Attendance Tracker</h1>
+
+<p class="subtitle">
+Faculty Engagement Team Attendance Management System
+</p>
+
+<div class="live">
+
+<div id="date"></div>
+
+<div id="time"></div>
+
+</div>
+
+<div class="progress-container">
+
+<div class="progress" id="progressBar"></div>
+
+</div>
+  <!-- ================= LOGIN SECTION ================= -->
+
+<div class="section">
+
+<h2>🔐 Login</h2>
+
+<div class="row">
+
+<div class="inputBox">
+
+<label for="username">Username</label>
+
+<input
+type="text"
+id="username"
+placeholder="Enter Username">
+
+<small class="error" id="userError"></small>
+
+</div>
+
+<div class="inputBox passwordBox">
+
+<label for="password">Password</label>
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password">
+
+<button
+type="button"
+id="toggleBtn"
+onclick="togglePassword()">
+
+Show
+
+</button>
+
+<small class="error" id="passError"></small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= ATTENDANCE ================= -->
+
+<div class="section">
+<button onclick="window.location.href='index.html'">
+    Back to Home
+</button>
+<h2>📝 Attendance Details</h2>
+
+<div class="row">
+
+<div class="inputBox">
+
+<label for="teacher">Teacher Name</label>
+
+<input
+type="text"
+id="teacher"
+placeholder="Enter Teacher Name">
+
+<small class="error" id="teacherError"></small>
+
+</div>
+
+<div class="inputBox">
+
+<label for="teacherID">Teacher ID</label>
+
+<input
+type="text"
+id="teacherID"
+placeholder="Enter Teacher ID">
+
+<small class="error" id="idError"></small>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="inputBox">
+
+<label for="school">School</label>
+
+<select id="school" onchange="showSchoolBox()">
+
+<option value="">Select School</option>
+
+<option>Christ School Thandavapura</option>
+<option>St. Joseph School</option>
+<option>Government High School</option>
+<option>JSS Public School</option>
+<option>NPS Mysore</option>
+<option>Kendriya Vidyalaya</option>
+<option value="Other">Other</option>
+
+</select>
+<input type="text" id="otherSchool" placeholder="Enter School Name" style="display:none;margin-top:10px;">
+<small class="error" id="schoolError"></small>
+
+</div>
+
+<div class="inputBox">
+
+<label>Team Selection</label>
+
+<div class="radio-grid">
+
+<label class="radio-item">
+<input type="radio" name="team" value="Kenes Team">
+<span>Kenes Team</span>
+</label>
+
+<label class="radio-item">
+<input type="radio" name="team" value="Ann Team">
+<span>Ann Team</span>
+</label>
+
+<label class="radio-item">
+<input type="radio" name="team" value="Thanishka Team">
+<span>Thanishka Team</span>
+</label>
+
+<label class="radio-item">
+<input type="radio" name="team" value="Other" onchange="showTeamBox()">
+<span>Other</span>
+</label>
+
+</div>
+<input type="text" id="otherTeam" placeholder="Enter Team Name" style="display:none;margin-top:10px;">
+<small class="error" id="teamError"></small>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="inputBox">
+
+<label>Attendance Status</label>
+
+<div class="radio-grid">
+
+<label class="radio-item">
+<input
+type="radio"
+name="attendance"
+value="Present">
+
+<span>Present</span>
+
+</label>
+
+<label class="radio-item">
+
+<input
+type="radio"
+name="attendance"
+value="Absent">
+
+<span>Absent</span>
+
+</label>
+
+</div>
+
+<small class="error" id="attendanceError"></small>
+
+</div>
+
+<div class="inputBox">
+
+<label for="session">Session</label>
+
+<select id="session">
+
+<option value="">Select Session</option>
+
+<option>Morning</option>
+<option>Afternoon</option>
+<option>Evening</option>
+
+</select>
+
+<small class="error" id="sessionError"></small>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="inputBox">
+
+<label for="notes">Notes</label>
+
+<textarea
+id="notes"
+placeholder="Enter remarks or attendance notes..."></textarea>
+
+</div>
+
+<button
+class="submit"
+onclick="validateForm()">
+
+Submit Attendance
+
+</button>
+
+<button type="reset" class="submit" style="background:#ef4444;margin-top:10px;">Clear</button>
+
+</div>
+
+<!-- ================= SUCCESS POPUP ================= -->
+
+<div
+class="overlay"
+id="overlay">
+
+</div>
+
+<div
+class="popup"
+id="popup">
+
+<h2>✅ Success!</h2>
+
+<p>
+
+Attendance submitted successfully.
+
+</p>
+
+<button
+onclick="closePopup()">
+
+OK
+
+</button>
+
+</div>
+  <script>
+
+/* ===============================
+   LIVE DATE & TIME
+================================== */
+
+function updateDateTime(){
+
+const now = new Date();
+
+const options = {
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+};
+
+document.getElementById("date").innerHTML =
+"📅 " + now.toLocaleDateString("en-IN",options);
+
+document.getElementById("time").innerHTML =
+"🕒 " + now.toLocaleTimeString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+
+
+/* ===============================
+   SHOW / HIDE PASSWORD
+================================== */
+
+function togglePassword(){
+
+const password=document.getElementById("password");
+
+const btn=document.getElementById("toggleBtn");
+
+if(password.type==="password"){
+
+password.type="text";
+
+btn.innerHTML="Hide";
+
+}
+
+else{
+
+password.type="password";
+
+btn.innerHTML="Show";
+
+}
+
+}
+
+
+
+/* ===============================
+   PROGRESS BAR
+================================== */
+
+const allInputs=document.querySelectorAll(
+"input,select,textarea"
+);
+
+allInputs.forEach(input=>{
+
+input.addEventListener("input",updateProgress);
+
+input.addEventListener("change",updateProgress);
+
+});
+
+function updateProgress(){
+
+let total=7;
+
+let filled=0;
+
+
+/* Username */
+
+if(username.value.trim()!="")filled++;
+
+/* Password */
+
+if(password.value.trim()!="")filled++;
+
+/* Teacher */
+
+if(teacher.value.trim()!="")filled++;
+
+/* Teacher ID */
+
+if(teacherID.value.trim()!="")filled++;
+
+/* School */
+
+if(school.value!="")filled++;
+
+/* Team */
+
+if(document.querySelector("input[name='team']:checked"))filled++;
+
+/* Attendance */
+
+if(document.querySelector("input[name='attendance']:checked"))filled++;
+
+let percent=(filled/total)*100;
+
+document.getElementById("progressBar").style.width=
+percent+"%";
+
+}
+
+
+
+/* ===============================
+   CLEAR ERRORS
+================================== */
+
+function clearErrors(){
+
+document.querySelectorAll(".error").forEach(error=>{
+
+error.innerHTML="";
+
+});
+
+}
+
+
+
+/* ===============================
+   VALIDATION
+================================== */
+
+function validateForm(){
+
+clearErrors();
+
+let valid=true;
+
+
+
+if(username.value.trim()==""){
+
+userError.innerHTML="Username is required";
+
+valid=false;
+
+}
+
+
+
+if(password.value.trim()==""){
+
+passError.innerHTML="Password is required";
+
+valid=false;
+
+}
+
+
+
+if(teacher.value.trim()==""){
+
+teacherError.innerHTML="Teacher name is required";
+
+valid=false;
+
+}
+
+
+
+if(teacherID.value.trim()==""){
+
+idError.innerHTML="Teacher ID is required";
+
+valid=false;
+
+}
+
+
+
+if(school.value==""){
+
+schoolError.innerHTML="Select your school";
+
+valid=false;
+
+}
+
+
+
+if(!document.querySelector("input[name='team']:checked")){
+
+teamError.innerHTML="Select a team";
+
+valid=false;
+
+}
+
+
+
+if(!document.querySelector("input[name='attendance']:checked")){
+
+attendanceError.innerHTML="Choose Present or Absent";
+
+valid=false;
+
+}
+
+
+
+if(session.value==""){
+
+sessionError.innerHTML="Select session";
+
+valid=false;
+
+}
+
+
+
+if(valid){
+
+showPopup();
+
+}
+
+}
+
+
+
+/* ===============================
+   SUCCESS POPUP
+================================== */
+
+function showPopup(){
+
+document.getElementById("popup").classList.add("active");
+
+document.getElementById("overlay").classList.add("active");
+
+}
+
+
+
+/* ===============================
+   CLOSE POPUP
+================================== */
+
+function closePopup(){
+
+document.getElementById("popup").classList.remove("active");
+
+document.getElementById("overlay").classList.remove("active");
+
+document.querySelector("form")?.reset();
+
+document.querySelectorAll("input").forEach(input=>{
+
+if(input.type==="radio"){
+
+input.checked=false;
+
+}
+
+});
+
+document.querySelectorAll("input[type=text],input[type=password]").forEach(input=>{
+
+input.value="";
+
+});
+
+document.querySelectorAll("textarea").forEach(t=>{
+
+t.value="";
+
+});
+
+document.querySelectorAll("select").forEach(s=>{
+
+s.selectedIndex=0;
+
+});
+
+
+function showSchoolBox(){
+document.getElementById('otherSchool').style.display=
+document.getElementById('school').value==='Other'?'block':'none';
+}
+function showTeamBox(){
+let r=document.querySelector("input[name='team']:checked");
+document.getElementById('otherTeam').style.display=(r&&r.value==='Other')?'block':'none';
+}
+document.addEventListener('change',e=>{
+if(e.target.name==='team')showTeamBox();
+});
+
+updateProgress();
+
+}
+
+
+
+/* ===============================
+   ENTER KEY SUPPORT
+================================== */
+
+document.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+validateForm();
+
+}
+
+});
+
+
+
+/* ===============================
+   INITIALIZE
+================================== */
+
+
+function showSchoolBox(){
+document.getElementById('otherSchool').style.display=
+document.getElementById('school').value==='Other'?'block':'none';
+}
+function showTeamBox(){
+let r=document.querySelector("input[name='team']:checked");
+document.getElementById('otherTeam').style.display=(r&&r.value==='Other')?'block':'none';
+}
+document.addEventListener('change',e=>{
+if(e.target.name==='team')showTeamBox();
+});
+
+updateProgress();
+
+</script>  <div id="page3">
+
+        <h2>Attendance Management System</h2>
+
+        <div class="card">
+
+            <h3>Attendance Summary</h3>
+
+            <p>Total Attendance: 85%</p>
+
+            <label>Chart Type</label>
+
+            <select id="chartType">
+                <option value="pie">Pie Chart</option>
+                <option value="line">Line Graph</option>
+            </select>
+
+            <canvas id="attendanceChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function showPage2(){
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").style.display="block";
+}
+
+function showPage1(){
+    document.getElementById("page2").style.display="none";
+    document.getElementById("page1").style.display="block";
+}
+
+function showPage3(){
+    document.getElementById("page2").style.display="none";
+    document.getElementById("page3").style.display="block";
+
+    createChart();
+}
+
+function showTextbox(){
+
+    let school=document.getElementById("school").value;
+    let textbox=document.getElementById("otherSchool");
+
+    if(school==="other"){
+        textbox.style.display="block";
+    }else{
+        textbox.style.display="none";
+    }
+}
+
+let chart;
+
+function createChart(){
+
+    const ctx=document.getElementById("attendanceChart");
+
+    chart=new Chart(ctx,{
+        type:"pie",
+        data:{
+            labels:["Present","Absent"],
+            datasets:[{
+                data:[85,15],
+                backgroundColor:["green","red"]
+            }]
+        }
+    });
+
+    document.getElementById("chartType").addEventListener("change",function(){
+
+        chart.destroy();
+
+        chart=new Chart(ctx,{
+            type:this.value,
+            data:{
+                labels:["Present","Absent"],
+                datasets:[{
+                    label:"Attendance",
+                    data:[85,15],
+                    backgroundColor:["green","red"],
+                    borderColor:["green","red"],
+                    borderWidth:2,
+                    fill:false
+                }]
+            }
+        });
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>

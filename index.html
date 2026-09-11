@@ -1,348 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Attendance Tracker</title>
-
-<style>
-
-/* BODY */
-
-body{
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#0f172a,#1e3a8a,#38bdf8);
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* MAIN CONTAINER */
-
-.container{
-    width:430px;
-    background:rgba(255,255,255,0.12);
-    padding:30px;
-    border-radius:20px;
-    backdrop-filter:blur(10px);
-    box-shadow:0 0 20px rgba(0,0,0,0.3);
-    color:white;
-}
-
-/* HEADINGS */
-
-h1{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-/* INPUT FIELDS */
-
-input,select{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    outline:none;
-    font-size:16px;
-    box-sizing:border-box;
-}
-
-/* BUTTONS */
-
-button{
-    padding:12px 20px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-/* PAGE 1 BUTTONS */
-
-.login-btn{
-    width:100%;
-    margin-top:20px;
-    background:#22c55e;
-    color:white;
-}
-
-.login-btn:hover{
-    background:#16a34a;
-}
-
-.submit-btn{
-    width:100%;
-    margin-top:15px;
-    background:#2563eb;
-    color:white;
-}
-
-.submit-btn:hover{
-    background:#1d4ed8;
-}
-
-.bottom-buttons{
-    margin-top:20px;
-    display:flex;
-    justify-content:space-between;
-}
-
-.clear-btn{
-    background:#ef4444;
-    color:white;
-}
-
-.clear-btn:hover{
-    background:#dc2626;
-}
-
-.next-btn{
-    background:#f59e0b;
-    color:white;
-}
-
-.next-btn:hover{
-    background:#d97706;
-}
-
-/* PAGE 2 */
-
-#page2{
-    display:none;
-}
-
-.team-section{
-    margin-top:25px;
-}
-
-.radio-group{
-    margin-top:15px;
-}
-
-.radio-group label{
-    display:block;
-    margin-bottom:12px;
-    font-size:17px;
-}
-
-input[type="radio"]{
-    width:auto;
-    margin-right:10px;
-}
-
-.page2-buttons{
-    display:flex;
-    justify-content:space-between;
-    margin-top:30px;
-}
-
-.back-btn{
-    background:#ef4444;
-    color:white;
-}
-
-.back-btn:hover{
-    background:#dc2626;
-}
-
-.finish-btn{
-    background:#22c55e;
-    color:white;
-}
-
-.finish-btn:hover{
-    background:#16a34a;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FET Attendance Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4, #9333ea);
+            background-size: 300% 300%;
+            animation: bgMove 12s infinite alternate;
+        }
+        @keyframes bgMove { 0% { background-position: left; } 100% { background-position: right; } }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+            color: white;
+            transition: max-width 0.4s ease;
+        }
+        .container.wide { max-width: 750px; }
+        h1, h2 { text-align: center; margin-bottom: 15px; }
+        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .input-group label { margin-bottom: 5px; font-weight: 500; }
+        .input-group input, .input-group select {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+        }
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input { padding-right: 45px; }
+        .toggle-pwd-btn {
+            position: absolute;
+            right: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button.btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #2563eb, #06b6d4);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button.btn-secondary {
+            background: transparent;
+            border: 1px solid white;
+            margin-top: 8px;
+        }
+        .status-msg { text-align: center; margin-top: 10px; color: #fde047; font-size: 14px; }
+        .attendance-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .attendance-row select { padding: 5px 10px; border-radius: 5px; border: none; width: auto; }
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="container" id="mainContainer">
+    <h1>FET Attendance System</h1>
 
-    <!-- PAGE 1 -->
-
-    <div id="page1">
-
-        <h1>Welcome To Attendance Tracker</h1>
-
-        <form>
-
-            <!-- USERNAME -->
-
-            <input type="text"
-            placeholder="Username"
-            required>
-
-            <!-- EMAIL -->
-
-            <input type="email"
-            placeholder="E-mail ID"
-            required>
-
-            <!-- PASSWORD -->
-
-            <input type="password"
-            placeholder="Password"
-            required>
-
-            <!-- LOGIN BUTTON -->
-
-            <button type="button"
-            class="login-btn">
-                Login
-            </button>
-
-            <!-- SUBMIT BUTTON -->
-
-            <button type="submit"
-            class="submit-btn">
-                Submit
-            </button>
-
-            <!-- BOTTOM BUTTONS -->
-
-            <div class="bottom-buttons">
-
-                <!-- CLEAR BUTTON -->
-
-                <button type="reset"
-                class="clear-btn">
-                    Clear
-                </button>
-
-                <!-- NEXT PAGE BUTTON -->
-
-                <button type="button"
-                class="next-btn"
-                onclick="showPage2()">
-                    Next Page
-                </button>
-
+    <!-- AUTHENTICATION SECTION -->
+    <div id="authContainer">
+        <!-- LOGIN PAGE -->
+        <div id="page1">
+            <h2>Login</h2>
+            <div class="input-group">
+                <label for="loginGmail">Email</label>
+                <input type="email" id="loginGmail" placeholder="Enter your email">
             </div>
-
-        </form>
-
-    </div>
-
-    <!-- PAGE 2 -->
-
-    <div id="page2">
-
-        <h1>Select School & Team</h1>
-
-        <!-- SCHOOL DROPDOWN -->
-
-        <label>Select Your School</label>
-
-        <select>
-
-            <option>
-                Bharath Matha School (Koppa)
-            </option>
-            <option> st.Mary's High School(</option>
-
-            <option>
-                Christ School (Thandavapura)
-            </option>
-
-            <option>
-                Christ School (Hassan)
-            </option>
-
-            <option>
-                Pushpa English School (Periyapatna)
-            </option>
-
-            <option>
-                Jeevadan High School (Yellareddy)
-            </option>
-
-        </select>
-
-        <!-- TEAM SECTION -->
-
-        <div class="team-section">
-
-            <label>Select Team Name</label>
-
-            <div class="radio-group">
-
-                <label>
-                    <input type="radio" name="team">
-                    Team Kenes
-                </label>
-
-                <label>
-                    <input type="radio" name="team">
-                    Team Tanishka
-                </label>
-
-                <label>
-                    <input type="radio" name="team">
-                    Team Ann
-                </label>
-
+            <div class="input-group">
+                <label for="loginPassword">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" placeholder="Enter password">
+                    <button type="button" class="toggle-pwd-btn" onclick="togglePassword('loginPassword')">👁️</button>
+                </div>
             </div>
-
+            
+            <button class="btn" id="loginBtn">Login</button>
+            <button class="btn btn-secondary" onclick="showPage2()">Need an account? Register</button>
+            <div id="authStatus" class="status-msg"></div>
         </div>
 
-        <!-- PAGE 2 BUTTONS -->
-
-        <div class="page2-buttons">
-
-            <!-- BACK BUTTON -->
-
-            <button class="back-btn"
-            onclick="showPage1()">
-                Back
-            </button>
-
-            <!-- FINISH BUTTON -->
-
-            <button class="finish-btn">
-                Finish
-            </button>
-
+        <!-- REGISTRATION PAGE -->
+        <div id="page2" style="display: none;">
+            <div class="top-nav">
+                <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="showPage1()">← Back to Login</button>
+            </div>
+            <h2>Register</h2>
+            <div class="input-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" placeholder="Enter full name">
+            </div>
+            <div class="input-group">
+                <label for="signupGmail">Email</label>
+                <input type="email" id="signupGmail" placeholder="Enter email">
+            </div>
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signupPassword" placeholder="Create password">
+                    <button type="button" class="toggle-pwd-btn" onclick="togglePassword('signupPassword')">👁️</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="signupSchool">School</label>
+                <select id="signupSchool">
+                    <option value="Christ School Thandavapura">Christ School Thandavapura</option>
+                    <option value="St. Joseph School">St. Joseph School</option>
+                    <option value="JSS Public School">JSS Public School</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="signupRole">Role</label>
+                <select id="signupRole">
+                    <option value="Leader">Leader / Teacher</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Student">Student</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="signupBatch">Batch / Team</label>
+                <select id="signupBatch">
+                    <option value="Team Kenes">Team Kenes</option>
+                    <option value="Ann Team">Ann Team</option>
+                    <option value="Thanishka Team">Thanishka Team</option>
+                </select>
+            </div>
+            <button class="btn" id="signupBtn">Finish Registration</button>
+            <button class="btn btn-secondary" onclick="showPage1()">← Back to Login</button>
+            <div id="signupStatus" class="status-msg"></div>
         </div>
-
     </div>
 
+    <!-- LEADER / TEACHER DASHBOARD -->
+    <div id="attendanceContainer" style="display: none;">
+        <div class="top-nav">
+            <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="logout()">← Back / Logout</button>
+        </div>
+        <h2>Mark Attendance</h2>
+        <div class="info-card">
+            <p><strong>User:</strong> <span id="displayEmail"></span></p>
+            <p><strong>Role:</strong> <span id="displayRole"></span></p>
+            <p><strong>Batch:</strong> <span id="displayBatch"></span></p>
+        </div>
+        <div id="studentList"></div>
+        <button class="btn" id="submitAttendanceBtn">Submit Attendance</button>
+        <button class="btn btn-secondary" onclick="logout()">← Logout to Main Menu</button>
+        <div id="attendanceStatus" class="status-msg"></div>
+    </div>
+
+    <!-- STUDENT DASHBOARD -->
+    <div id="studentContainer" style="display: none;">
+        <div class="top-nav">
+            <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="logout()">← Back / Logout</button>
+        </div>
+        <h2 id="studentWelcomeText">Welcome!</h2>
+        <div class="input-group">
+            <label for="chartType">Chart View</label>
+            <select id="chartType">
+                <option value="line">Line Graph</option>
+                <option value="pie">Pie Chart</option>
+            </select>
+        </div>
+        <canvas id="attendanceChart" style="max-height: 300px;"></canvas>
+        <button class="btn btn-secondary" onclick="logout()" style="margin-top: 15px;">← Logout to Main Menu</button>
+    </div>
 </div>
 
-<!-- JAVASCRIPT -->
-
-<script>
-
-/* OPEN PAGE 2 */
-
-function showPage2(){
-
-    document.getElementById("page1").style.display="none";
-
-    document.getElementById("page2").style.display="block";
-
-}
-
-/* GO BACK TO PAGE 1 */
-
-function showPage1(){
-
-    document.getElementById("page2").style.display="none";
-
-    document.getElementById("page1").style.display="block";
-
-}
-
-</script>
-
+<script src="BET.js"></script>
 </body>
 </html>
